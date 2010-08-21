@@ -6,7 +6,6 @@ use File::Find;
 use File::Temp qw/tempdir/;
 use File::Spec;
 use File::Copy;
-use File::Basename;
 use Cwd;
 use Config;
 use Exporter 'import';
