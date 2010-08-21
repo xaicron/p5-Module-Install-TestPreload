@@ -6,6 +6,7 @@ use vars qw($VERSION @MODULES @INCLUDES  @SCRIPTS @CODES);
 $VERSION = '0.01_01';
 
 use base qw(Module::Install::Base);
+use ExtUtils::MM_Any;
 use B::Deparse;
 
 my $bd = B::Deparse->new;
