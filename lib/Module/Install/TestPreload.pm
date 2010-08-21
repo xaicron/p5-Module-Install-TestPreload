@@ -84,7 +84,7 @@ Module::Install::TestPreload - preload codes for test
 
 =head1 DESCRIPTION
 
-Module::Install::TestPreload is 
+Module::Install::TestPreload is helps make a variety of processing of during the make test.
 
 =head1 FUNCTIONS
 
