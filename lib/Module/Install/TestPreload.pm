@@ -1,9 +1,9 @@
 package Module::Install::TestPreload;
+
 use strict;
 use warnings;
-use 5.00801;
-use vars qw($VERSION @MODULES @SCRIPTS @CODES);
-$VERSION = '0.01';
+use vars qw($VERSION @MODULES @INCLUDES  @SCRIPTS @CODES);
+$VERSION = '0.01_01';
 
 use base qw(Module::Install::Base);
 use B::Deparse;
@@ -28,6 +28,12 @@ sub test_preload_code {
     push @CODES, @_;
 }
 
+sub test_preload_inc {
+    $self = shift;
+    return unless @_;
+    push @INCLUDES, @_;
+}
+
 {
     my $org = ExtUtils::MM_Any->can('test_via_harness');
     sub test_via_harness_org {
@@ -37,15 +43,17 @@ sub test_preload_code {
 
 *ExtUtils::MM_Any::test_via_harness = sub {
     my($self, $perl, $tests) = @_;
-    
-    my $pre_load_modules = @MODULES ? join '', map { qq|"-M$_" |   } @MODULES : '';
-    my $pre_load_scripts = @SCRIPTS ? join '', map { qq|do '$_'; | } @SCRIPTS : '';
-    my $pre_load_codes   = @CODES   ? join '', map { qq|sub { $_ }->(); | } map { ref $_ eq 'CODE' ? $bd->coderef2text($_) : $_ } @CODES : '';
+
+    my $pre_load_include = @INCLUDES ? join '', map { qq|"-I$_" |   } @INCLUDES : '';
+    my $pre_load_modules = @MODULES  ? join '', map { qq|"-M$_" |   } @MODULES  : '';
+    my $pre_load_scripts = @SCRIPTS  ? join '', map { qq|do '$_'; | } @SCRIPTS  : '';
+    my $pre_load_codes   = @CODES    ? join '', map { qq|sub { $_ }->(); | } map { ref $_ eq 'CODE' ? $bd->coderef2text($_) : $_ } @CODES : '';
        $pre_load_codes =~ s/"/\\"/g;
        $pre_load_codes =~ s/\n/ /g;
-    
+
     return
         qq{\t$perl "-MExtUtils::Command::MM" }.
+        $pre_load_include .
         $pre_load_modules .
         qq{"-e" "}        .
         $pre_load_scripts .
