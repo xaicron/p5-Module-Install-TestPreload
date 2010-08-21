@@ -41,6 +41,7 @@ sub test_preload_inc {
     }
 }
 
+no warnings 'redefine';
 *ExtUtils::MM_Any::test_via_harness = sub {
     my($self, $perl, $tests) = @_;
 
