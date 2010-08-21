@@ -29,7 +29,7 @@ sub test_preload_code {
 }
 
 sub test_preload_inc {
-    $self = shift;
+    my $self = shift;
     return unless @_;
     push @INCLUDES, @_;
 }
