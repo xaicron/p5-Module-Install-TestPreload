@@ -134,7 +134,7 @@ Setting preload perl codes in make test command.
   test_preload_code('print scalar localtime , "\n"', sub { system qw/cat README/ });
   
   # maybe make test is
-  perl -MExtUtils::Command::MM "sub { print scalar localtme, "\n" }->(); sub { system qw(cat README) }->(); test_harness(0, 'inc')" t/*t
+  perl -MExtUtils::Command::MM "sub { print scalar localtme, "\n" }->(); sub { system 'cat', 'README' }->(); test_harness(0, 'inc')" t/*t
 
 The perl codes runs test_preload_script files runs later.
 
