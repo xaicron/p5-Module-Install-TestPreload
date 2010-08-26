@@ -50,6 +50,7 @@ no warnings 'redefine';
     my $pre_load_modules = @MODULES  ? join '', map { qq|"-M$_" |   } @MODULES  : '';
     my $pre_load_scripts = @SCRIPTS  ? join '', map { qq|do '$_'; | } @SCRIPTS  : '';
     my $pre_load_codes   = @CODES    ? join '', map { qq|sub { $_ }->(); | } map { ref $_ eq 'CODE' ? $bd->coderef2text($_) : $_ } @CODES : '';
+       $pre_load_codes =~ s/\$/\\\$\$/g;
        $pre_load_codes =~ s/"/\\"/g;
        $pre_load_codes =~ s/\n/ /g;
 
